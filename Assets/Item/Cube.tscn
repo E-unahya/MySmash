@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cba0w3j208jgj"]
+
+[ext_resource type="Script" path="res://Assets/Item/Cube.gd" id="1_cvk34"]
+[ext_resource type="PackedScene" uid="uid://bud6jfr8r4wfn" path="res://Assets/Cubes/glTF/Cube_Default.gltf" id="2_nhbt6"]
+[ext_resource type="Script" path="res://Assets/Character/AttackArea.gd" id="3_0o0io"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gqoip"]
+size = Vector3(2, 2.03961, 2.00397)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n0adl"]
+radius = 2.37552
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hrmyc"]
+radius = 1.67566
+
+[node name="Cube" type="RigidBody3D"]
+script = ExtResource("1_cvk34")
+
+[node name="Cube_Default2" parent="." instance=ExtResource("2_nhbt6")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013155, 0.0174255, -0.0350647)
+shape = SubResource("BoxShape3D_gqoip")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_n0adl")
+
+[node name="AttackArea" type="Area3D" parent="."]
+script = ExtResource("3_0o0io")
+attack_pt = 100.0
+futtobi_vec = Vector3(0, 1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
+shape = SubResource("SphereShape3D_hrmyc")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://5jqv062cetx5"]
+
+[ext_resource type="Script" path="res://Assets/GakeArea.gd" id="1_7vn2v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mq5bh"]
+size = Vector3(2, 1, 4)
+
+[node name="GakeArea" type="Area3D"]
+gravity_space_override = 4
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+linear_damp_space_override = 4
+angular_damp_space_override = 4
+wind_force_magnitude = 30.0
+script = ExtResource("1_7vn2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_mq5bh")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

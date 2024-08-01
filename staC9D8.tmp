@@ -1,0 +1,99 @@
+[gd_scene load_steps=11 format=3 uid="uid://81vepei3vbiy"]
+
+[ext_resource type="MeshLibrary" uid="uid://ddx3fyxjyqf70" path="res://Assets/Modular Platforms/CubeSingleHeight.tres" id="1_pe26q"]
+[ext_resource type="PackedScene" uid="uid://dclclsyooqr5e" path="res://Assets/Character/Fighter.tscn" id="2_uulae"]
+[ext_resource type="PackedScene" uid="uid://5jqv062cetx5" path="res://Assets/GakeArea.tscn" id="3_ybwm1"]
+[ext_resource type="Shader" path="res://Assets/StylizedSky.gdshader" id="4_2aco6"]
+[ext_resource type="PackedScene" uid="uid://gchr01o41uau" path="res://Assets/Character/SandBack.tscn" id="4_ou2vn"]
+[ext_resource type="PackedScene" uid="uid://c0w3kwjatvpri" path="res://Assets/Parcentage.tscn" id="6_1yc43"]
+[ext_resource type="PackedScene" uid="uid://cba0w3j208jgj" path="res://Assets/Item/Cube.tscn" id="7_038e4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k8li7"]
+shader = ExtResource("4_2aco6")
+shader_parameter/clouds_samples = 16
+shader_parameter/shadow_sample = 4
+shader_parameter/clouds_density = 0.5
+shader_parameter/clouds_scale = 1.0
+shader_parameter/clouds_smoothness = 0.035
+shader_parameter/clouds_light_color = null
+shader_parameter/clouds_shadow_intensity = 1.0
+shader_parameter/high_clouds_density = 0.0
+shader_parameter/top_color = Color(1, 1, 1, 1)
+shader_parameter/bottom_color = Color(1, 1, 1, 1)
+shader_parameter/sun_scatter = Color(1, 1, 1, 1)
+shader_parameter/astro_tint = null
+shader_parameter/astro_scale = 1.0
+shader_parameter/astro_intensity = 1.0
+shader_parameter/stars_intensity = 0.0
+shader_parameter/shooting_stars_intensity = 0.0
+shader_parameter/shooting_star_tint = null
+
+[sub_resource type="Sky" id="Sky_nlu1b"]
+sky_material = SubResource("ShaderMaterial_k8li7")
+
+[sub_resource type="Environment" id="Environment_56sah"]
+background_mode = 2
+sky = SubResource("Sky_nlu1b")
+
+[node name="Stage" type="Node3D"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_pe26q")
+data = {
+"cells": PackedInt32Array(-65536, 65529, 1048581, -65536, 65530, 1048581, -65536, 65531, 1048581, -65536, 65532, 1048581, -65536, 65533, 1048581, -65536, 65534, 1048581, -65536, 65535, 1048581, -65536, 0, 1048581, -65536, 1, 1048581, -65536, 2, 1048581, -65536, 3, 1048581, -65536, 4, 1048581, -65536, 5, 1048581, -131072, 65530, 1048577, -131072, 65531, 1048577, -131072, 65532, 1048577, -131072, 65533, 1048577, -131072, 65534, 1048577, -131072, 65535, 1048577, -131072, 0, 1048577, -131072, 1, 1048577, -131072, 2, 1048577, -131072, 3, 1048577, -131072, 4, 1048577, -196608, 65531, 1048577, -196608, 65532, 1048577, -196608, 65533, 1048577, -196608, 65534, 1048577, -196608, 65535, 1048577, -196608, 0, 1048577, -196608, 1, 1048577, -196608, 2, 1048577, -196608, 3, 1048577, -262144, 65532, 1048577, -262144, 65533, 1048577, -262144, 65534, 1048577, -262144, 65535, 1048577, -262144, 0, 1048577, -262144, 1, 1048577, -262144, 2, 1048577, -327680, 65533, 1048577, -327680, 65534, 1048577, -327680, 65535, 1048577, -327680, 0, 1048577, -327680, 1, 1048577, -393216, 65534, 1048577, -393216, 65535, 1048577, -393216, 0, 1048577, -458752, 65535, 1048577, -65536, 6, 1048581, -131072, 5, 1048578, -196608, 4, 1048578, -262144, 3, 1048578, -327680, 2, 1048578, -393216, 1, 1048578, -458752, 0, 1048578)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 17, 3, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 14, 0)
+
+[node name="GakeArea" parent="." instance=ExtResource("3_ybwm1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 14)
+
+[node name="GakeArea2" parent="." instance=ExtResource("3_ybwm1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, -14)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_56sah")
+
+[node name="Fighters" type="Node3D" parent="."]
+
+[node name="SandBack" parent="Fighters" groups=["Fighter"] instance=ExtResource("4_ou2vn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -10)
+motion_mode = 1
+wall_min_slide_angle = 0.523599
+
+[node name="Fighter" parent="Fighters" instance=ExtResource("2_uulae")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 9)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Parcentage" parent="Control/HBoxContainer" instance=ExtResource("6_1yc43")]
+layout_mode = 2
+
+[node name="Parcentage2" parent="Control/HBoxContainer" instance=ExtResource("6_1yc43")]
+layout_mode = 2
+
+[node name="Cube" parent="." instance=ExtResource("7_038e4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.06154, 2, 3.23868)
+
+[connection signal="damaged" from="Fighters/SandBack" to="Control/HBoxContainer/Parcentage2" method="_on_sand_back_damaged"]

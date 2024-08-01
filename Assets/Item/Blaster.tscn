@@ -1,0 +1,127 @@
+[gd_scene load_steps=10 format=3 uid="uid://cv187yq8080q1"]
+
+[ext_resource type="Script" path="res://Assets/Item/Cube.gd" id="1_qyth3"]
+[ext_resource type="PackedScene" uid="uid://cfhaq721uysqp" path="res://Assets/Item/blasterA.glb" id="2_dl2tq"]
+[ext_resource type="Script" path="res://Assets/Character/AttackArea.gd" id="3_pf614"]
+
+[sub_resource type="Animation" id="Animation_6bxmc"]
+resource_name = "Blaster"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterA2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.261799, 0, 0), Vector3(0, 0, 0), Vector3(-0.261799, 0, 0), Vector3(0, 0, 0), Vector3(-0.261799, 0, 0), Vector3(0, 0, 0), Vector3(-0.261799, 0, 0), Vector3(0, 0, 0), Vector3(-0.261799, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}, {
+"args": [],
+"method": &"_shot"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_o5jgg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterA2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yjonj"]
+_data = {
+"Blaster": SubResource("Animation_6bxmc"),
+"RESET": SubResource("Animation_o5jgg")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x2vnd"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kv1t8"]
+radius = 2.37552
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ywu73"]
+radius = 1.75194
+
+[node name="Blaster" type="RigidBody3D"]
+script = ExtResource("1_qyth3")
+metadata/animation_name = "Blaster"
+
+[node name="blasterA2" parent="." instance=ExtResource("2_dl2tq")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yjonj")
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0144882, 0)
+shape = SubResource("BoxShape3D_x2vnd")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_kv1t8")
+
+[node name="AttackArea" type="Area3D" parent="."]
+script = ExtResource("3_pf614")
+attack_pt = 10.0
+futtobi_vec = Vector3(0, 1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackArea"]
+shape = SubResource("SphereShape3D_ywu73")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
