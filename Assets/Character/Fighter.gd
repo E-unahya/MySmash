@@ -10,8 +10,8 @@ class_name Fighter
 ## キャラクターがどこを向いているのか取得するための変数
 var character_direction : int
 
-@export var SPEED = 5.0
-@export var JUMP_VELOCITY = 5.0
+@export var SPEED = 10
+@export var JUMP_VELOCITY = 10.0
 @export var FUKKI_VELOCITY = 7
 
 ## やや面倒だけどexportで入力を受け付ける方法
@@ -38,11 +38,11 @@ func _physics_process(delta: float) -> void:
 		fukki_used = false
 
 	# Handle jump.
-	if _is_up() <= -0.7 and is_on_floor():
+	if Input.is_action_just_pressed(get_input("up")) and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		double_jump = true
-	## ダブルジャンプの場所、追々解決する
-	if _is_up() <= -0.5 and double_jump and !is_on_floor():
+	## ダブルジャンプはジャスト入力したタイミングで判定を行う
+	if Input.is_action_just_pressed(get_input("up")) and double_jump and !is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		double_jump = false
 	# xだけどあのゲームの縦担当
@@ -51,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	var input_dir_y := Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X)
 
 	# 復帰技を仕掛ける
-	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y) <= -0.7 and input_dir_x > 0 and !fukki_used:
+	if Input.is_action_pressed(get_input("up")) and input_dir_x >= 0.7 and !fukki_used:
 		fukki_used = true
 		velocity.y = FUKKI_VELOCITY
 	var direction := (transform.basis * Vector3(input_dir_x, 0, input_dir_y)).normalized()
@@ -59,33 +59,37 @@ func _physics_process(delta: float) -> void:
 		velocity.z = -direction.z * SPEED
 	else:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
+	velocity.x = 0
+	move_and_slide()
 
 
 func _input(event):
 	## ここから技関係の入力に入る
 	# 普通のパンチ
-	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_B):
+	if event.is_action_pressed(get_input("JabAttack")):
 		action_player.play("Jab")
 	## 復帰技
-	if Input.is_joy_button_pressed(player_index, JOY_BUTTON_B) and !fukki_used:
+	if event.is_action_pressed(get_input("Hissatu")) and !fukki_used:
 		action_player.play("FukkiWaza")
 	# 崖に捕まっているトキのアクション
 	if !is_not_gake:
-		if _is_up() <= -0.7:
+		if event.is_action_pressed(get_input("up")):
 			set_check_gake_tukami(true)
 			velocity.y = JUMP_VELOCITY * 2
 			double_jump = true
 			fukki_used = false
-	if _is_up() <= -0.7:
+	if event.is_action_pressed(get_input("up")):
 		action_player.play("Jump")
-	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X) >= 0.7:
-		character.look_at(position + Vector3(0,0,1))
-		character_direction = 1
-	if Input.get_joy_axis(player_index, JOY_AXIS_LEFT_X) <= -0.7:
+	if event.is_action_pressed(get_input("left")):
 		character.look_at(position + Vector3(0,0,-1))
 		character_direction = -1
+	if event.is_action_pressed(get_input("right")):
+		character.look_at(position + Vector3(0,0,1))
+		character_direction = 1
 
-	move_and_slide()
+
+func get_input(input_name:String) -> String:
+	return input_name + "_" + str(player_index)
 
 
 # ここから攻撃などのサブメソッド
