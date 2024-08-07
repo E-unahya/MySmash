@@ -1,8 +1,7 @@
 extends Node3D
 
 @onready var fighters = $Fighters
-@export var select_fighters : Array[Resource]
-
+@export var select_fighters
 
 func _ready():
 	# ほんとだったらあらかじめ選ばれたファイターが子として追加されるのだが
@@ -11,4 +10,3 @@ func _ready():
 	for f in len(fighers_array):
 		fighers_array[f].player_index = f
 	# ゲームパッドがどれくらい接続されているのか把握できる。
-
