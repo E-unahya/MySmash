@@ -1,0 +1,17 @@
+[remap]
+
+importer="effekseer.effect"
+type="Resource"
+uid="uid://s5k22w07iawf"
+path="res://.godot/imported/Zangeki.efkefc-7875ad6ad4690cf300f7d196f73765cc.res"
+
+[deps]
+
+source_file="res://Assets/Effekseer/Zangeki.efkefc"
+dest_files=["res://.godot/imported/Zangeki.efkefc-7875ad6ad4690cf300f7d196f73765cc.res"]
+
+[params]
+
+scale=1.0
+data_type=0
+compress=true

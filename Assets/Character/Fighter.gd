@@ -17,12 +17,17 @@ var character_direction : int
 ## やや面倒だけどexportで入力を受け付ける方法
 @export var player_index : int = 0
 
+@export var life_parcentage : float = 0.0
+
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var double_jump : bool = false
 var fukki_used : bool = false
 
 ## 崖つかみ状態であるか否か
 var is_not_gake : bool = true
+
+# ダメージを受けたときのシグナル
+signal damaged(damage_num:float)
 
 func _is_up() -> float:
 	return Input.get_joy_axis(player_index, JOY_AXIS_LEFT_Y)
@@ -101,6 +106,12 @@ func attack(atari_hantei_node:String) -> void:
 		if enemy.has_method("damage"):
 			enemy.damage(atari_hantei.attack_pt, atari_hantei.futtobi_vec * character_direction)
 
+func damage(attack_pt, futtobi_vec):
+	life_parcentage += attack_pt
+	velocity += futtobi_vec * life_parcentage * character_direction
+	action_player.play("Damage")
+	damaged.emit(life_parcentage)
+	move_and_slide()
 
 func set_check_gake_tukami(boolean : bool) -> void:
 	is_not_gake = boolean

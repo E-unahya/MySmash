@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dclclsyooqr5e"]
+[gd_scene load_steps=28 format=3 uid="uid://dclclsyooqr5e"]
 
 [ext_resource type="Script" path="res://Assets/Character/Fighter.gd" id="1_vddyl"]
 [ext_resource type="PackedScene" uid="uid://dladksbvkj1pe" path="res://Assets/Character/glTF/Character.gltf" id="2_ngo71"]
+[ext_resource type="Material" uid="uid://dlfym2s40n72i" path="res://DamageMaterial.tres" id="3_assvy"]
 [ext_resource type="Script" path="res://Assets/Character/AttackArea.gd" id="3_upobt"]
-[ext_resource type="EffekseerEffect" uid="uid://cbvtduxuxyqxd" path="res://Assets/Effekseer/Laser01.efkefc" id="4_muqtq"]
+[ext_resource type="EffekseerEffect" uid="uid://chi8afvrnvg5m" path="res://Assets/Effekseer/Punch.efkefc" id="4_rp1wf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6mm2q"]
 size = Vector3(2, 2, 2)
@@ -18,8 +19,64 @@ size = Vector3(1, 1.48584, 3.0061)
 radius = 0.812359
 height = 4.40138
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_drovr"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+particle_flag_damping_as_friction = true
+spread = 180.0
+angular_velocity_min = 180.0
+angular_velocity_max = 360.0
+orbit_velocity_max = 2.0
+radial_velocity_min = 180.0
+radial_velocity_max = 360.0
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="Shader" id="Shader_0bhq3"]
+code = "shader_type spatial;
+render_mode unshaded, alpha_to_coverage, shadows_disabled;
+
+void vertex() {
+	COLOR = vec4(sin(TIME) * 100.0, cos(TIME) * 100.0, 1.0, 1.0);
+}
+
+void fragment() {
+	// Called for every pixel the material is visible on.
+}
+
+//void light() {
+	// Called for every pixel for every light affecting the material.
+	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xglrq"]
+render_priority = 0
+shader = SubResource("Shader_0bhq3")
+
+[sub_resource type="SphereMesh" id="SphereMesh_l6qh7"]
+material = SubResource("ShaderMaterial_xglrq")
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_pnqm8"]
 size = Vector3(1, 2, 1)
+
+[sub_resource type="Animation" id="Animation_nedni"]
+resource_name = "Damage"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Character/CharacterArmature/Skeleton3D/Head:material_overlay:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_bf1r4"]
 resource_name = "FukkiWaza"
@@ -74,6 +131,18 @@ tracks/1/keys = {
 "args": [NodePath("Character/FukkiWazaArea")],
 "method": &"attack"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Character/CharacterArmature:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 75.3982, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_vlqw6"]
@@ -525,6 +594,18 @@ tracks/30/path = NodePath("Character/CharacterArmature/Skeleton3D:Fist.L")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/keys = PackedFloat32Array(0, 1, 1.00048, 1.00048, 1.00048, 0.2, 1, 2.00048, 2.00048, 2.00048)
+tracks/31/type = "value"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("Character/EffekseerEmitter3D:autoplay")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_tuo0m"]
 resource_name = "Jump"
@@ -3631,6 +3712,42 @@ tracks/86/path = NodePath("Character/CharacterArmature/Skeleton3D:PoleTarget.R")
 tracks/86/interp = 1
 tracks/86/loop_wrap = true
 tracks/86/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/87/type = "value"
+tracks/87/imported = false
+tracks/87/enabled = true
+tracks/87/path = NodePath("Character/CharacterArmature:rotation")
+tracks/87/interp = 1
+tracks/87/loop_wrap = true
+tracks/87/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/88/type = "value"
+tracks/88/imported = false
+tracks/88/enabled = true
+tracks/88/path = NodePath("Character/EffekseerEmitter3D:autoplay")
+tracks/88/interp = 1
+tracks/88/loop_wrap = true
+tracks/88/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/89/type = "value"
+tracks/89/imported = false
+tracks/89/enabled = true
+tracks/89/path = NodePath("Character/CharacterArmature/Skeleton3D/Head:material_overlay:albedo_color")
+tracks/89/interp = 1
+tracks/89/loop_wrap = true
+tracks/89/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_whn50"]
 resource_name = "Smash"
@@ -4089,7 +4206,7 @@ tracks/64/enabled = true
 tracks/64/path = NodePath("Character/CharacterArmature/Skeleton3D:Fist.L")
 tracks/64/interp = 1
 tracks/64/loop_wrap = true
-tracks/64/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 0.8, 1, 1.00038, 1.00038, 1.00038, 1, 1, 1.00048, 1.00048, 1.00048, 1.1, 1, 3.00048, 3.00048, 3.00048, 1.2, 1, 1.00048, 1.00048, 1.00048)
+tracks/64/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 0.8, 1, 1.00038, 1.00038, 1.00038, 1, 1, 2.00048, 2.00048, 2.00048, 1.1, 1, 3.00048, 3.00048, 3.00048, 1.2, 1, 1.00048, 1.00048, 1.00048)
 tracks/65/type = "position_3d"
 tracks/65/imported = false
 tracks/65/enabled = true
@@ -4262,6 +4379,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_auyx5"]
 _data = {
+"Damage": SubResource("Animation_nedni"),
 "FukkiWaza": SubResource("Animation_bf1r4"),
 "GakeTukamiAction": SubResource("Animation_vlqw6"),
 "Idle": SubResource("Animation_0wkg5"),
@@ -4391,6 +4509,18 @@ bones/28/position = Vector3(-0.541183, 0.248522, 0.963147)
 bones/28/rotation = Quaternion(-3.55273e-15, -5.96046e-07, 3.38813e-21, 1)
 bones/28/scale = Vector3(1, 1, 1)
 
+[node name="Arms" parent="Character/CharacterArmature/Skeleton3D" index="0"]
+material_overlay = ExtResource("3_assvy")
+
+[node name="Body" parent="Character/CharacterArmature/Skeleton3D" index="1"]
+material_overlay = ExtResource("3_assvy")
+
+[node name="Ears" parent="Character/CharacterArmature/Skeleton3D" index="2"]
+material_overlay = ExtResource("3_assvy")
+
+[node name="Head" parent="Character/CharacterArmature/Skeleton3D" index="3"]
+material_overlay = ExtResource("3_assvy")
+
 [node name="AttackArea" type="Area3D" parent="Character"]
 script = ExtResource("3_upobt")
 attack_pt = 10.0
@@ -4431,10 +4561,13 @@ shape = SubResource("CapsuleShape3D_ye15o")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
 [node name="EffekseerEmitter3D" type="EffekseerEmitter3D" parent="Character"]
-effect = ExtResource("4_muqtq")
-autoplay = false
-color = Color(0.176471, 0.466667, 1, 1)
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+effect = ExtResource("4_rp1wf")
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1, 1)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Character"]
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_drovr")
+draw_pass_1 = SubResource("SphereMesh_l6qh7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

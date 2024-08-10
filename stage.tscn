@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://81vepei3vbiy"]
+[gd_scene load_steps=11 format=3 uid="uid://81vepei3vbiy"]
 
 [ext_resource type="MeshLibrary" uid="uid://ddx3fyxjyqf70" path="res://Assets/Modular Platforms/CubeSingleHeight.tres" id="1_pe26q"]
 [ext_resource type="Script" path="res://stage.gd" id="1_uc14d"]
@@ -7,9 +7,6 @@
 [ext_resource type="Shader" path="res://Assets/StylizedSky.gdshader" id="4_2aco6"]
 [ext_resource type="PackedScene" uid="uid://gchr01o41uau" path="res://Assets/Character/SandBack.tscn" id="4_ou2vn"]
 [ext_resource type="PackedScene" uid="uid://c0w3kwjatvpri" path="res://Assets/Parcentage.tscn" id="6_1yc43"]
-[ext_resource type="PackedScene" uid="uid://cba0w3j208jgj" path="res://Assets/Item/Cube.tscn" id="7_038e4"]
-[ext_resource type="PackedScene" uid="uid://cv187yq8080q1" path="res://Assets/Item/Blaster.tscn" id="7_q5v1b"]
-[ext_resource type="PackedScene" uid="uid://f7jgihqa35iy" path="res://Assets/Item/Knife.tscn" id="9_6sate"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k8li7"]
 shader = ExtResource("4_2aco6")
@@ -38,12 +35,9 @@ sky_material = SubResource("ShaderMaterial_k8li7")
 background_mode = 2
 sky = SubResource("Sky_nlu1b")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_gmlh6"]
-size = Vector3(5, 30, 100)
-
 [node name="Stage" type="Node3D"]
 script = ExtResource("1_uc14d")
-select_fighters = Array[Resource]([null])
+select_fighters = Array[PackedScene]([ExtResource("2_uulae"), ExtResource("2_uulae")])
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_pe26q")
@@ -76,12 +70,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 9)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -8)
 player_index = 1
 
-[node name="SandBack" parent="Fighters" instance=ExtResource("4_ou2vn")]
+[node name="SandBack" parent="." instance=ExtResource("4_ou2vn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -10)
 motion_mode = 1
 wall_min_slide_angle = 0.523599
 
-[node name="Control" type="Control" parent="."]
+[node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,7 +83,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="LifeContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -99,29 +93,10 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="Parcentage" parent="Control/HBoxContainer" instance=ExtResource("6_1yc43")]
+[node name="Parcentage" parent="UI/LifeContainer" instance=ExtResource("6_1yc43")]
 layout_mode = 2
 
-[node name="Parcentage2" parent="Control/HBoxContainer" instance=ExtResource("6_1yc43")]
+[node name="Parcentage2" parent="UI/LifeContainer" instance=ExtResource("6_1yc43")]
 layout_mode = 2
 
-[node name="Blaster" parent="." instance=ExtResource("7_q5v1b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 6)
-
-[node name="Cube" parent="." instance=ExtResource("7_038e4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.06154, 2, 3.23868)
-
-[node name="knife_sharp2" parent="." instance=ExtResource("9_6sate")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
-shape = SubResource("BoxShape3D_gmlh6")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
-shape = SubResource("BoxShape3D_gmlh6")
-
-[connection signal="damaged" from="Fighters/SandBack" to="Control/HBoxContainer/Parcentage2" method="_on_sand_back_damaged"]
+[connection signal="damaged" from="SandBack" to="UI/LifeContainer/Parcentage2" method="_on_sand_back_damaged"]
