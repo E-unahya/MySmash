@@ -90,3 +90,8 @@ func _shot():
 	var bullet = preload("res://Assets/Item/Bullet.tscn").instantiate()
 	bullet.scale = Vector3(0.5, 0.5, 0.5)
 	add_child(bullet)
+
+
+func _on_visible_on_screen_notifier_3d_screen_exited():
+	print("FREE")
+	queue_free()

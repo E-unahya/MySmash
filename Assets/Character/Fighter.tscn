@@ -20,16 +20,10 @@ radius = 0.812359
 height = 4.40138
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_drovr"]
-particle_flag_align_y = true
-particle_flag_rotate_y = true
-particle_flag_disable_z = true
 particle_flag_damping_as_friction = true
-spread = 180.0
-angular_velocity_min = 180.0
-angular_velocity_max = 360.0
-orbit_velocity_max = 2.0
-radial_velocity_min = 180.0
-radial_velocity_max = 360.0
+direction = Vector3(0, 0, 1)
+radial_velocity_min = 90.0
+radial_velocity_max = 180.0
 collision_mode = 1
 collision_friction = 0.0
 collision_bounce = 0.0
@@ -76,6 +70,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Character/GPUParticles3D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_bf1r4"]
@@ -3748,6 +3754,18 @@ tracks/89/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/90/type = "value"
+tracks/90/imported = false
+tracks/90/enabled = true
+tracks/90/path = NodePath("Character/GPUParticles3D:emitting")
+tracks/90/interp = 1
+tracks/90/loop_wrap = true
+tracks/90/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_whn50"]
 resource_name = "Smash"
@@ -4565,7 +4583,9 @@ effect = ExtResource("4_rp1wf")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1, 1)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Character"]
+emitting = false
 amount = 32
+one_shot = true
 process_material = SubResource("ParticleProcessMaterial_drovr")
 draw_pass_1 = SubResource("SphereMesh_l6qh7")
 

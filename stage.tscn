@@ -1,11 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://81vepei3vbiy"]
+[gd_scene load_steps=10 format=3 uid="uid://81vepei3vbiy"]
 
 [ext_resource type="MeshLibrary" uid="uid://ddx3fyxjyqf70" path="res://Assets/Modular Platforms/CubeSingleHeight.tres" id="1_pe26q"]
 [ext_resource type="Script" path="res://stage.gd" id="1_uc14d"]
 [ext_resource type="PackedScene" uid="uid://dclclsyooqr5e" path="res://Assets/Character/Fighter.tscn" id="2_uulae"]
 [ext_resource type="PackedScene" uid="uid://5jqv062cetx5" path="res://Assets/GakeArea.tscn" id="3_ybwm1"]
 [ext_resource type="Shader" path="res://Assets/StylizedSky.gdshader" id="4_2aco6"]
-[ext_resource type="PackedScene" uid="uid://gchr01o41uau" path="res://Assets/Character/SandBack.tscn" id="4_ou2vn"]
 [ext_resource type="PackedScene" uid="uid://c0w3kwjatvpri" path="res://Assets/Parcentage.tscn" id="6_1yc43"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k8li7"]
@@ -37,14 +36,15 @@ sky = SubResource("Sky_nlu1b")
 
 [node name="Stage" type="Node3D"]
 script = ExtResource("1_uc14d")
-select_fighters = Array[PackedScene]([ExtResource("2_uulae"), ExtResource("2_uulae")])
+select_fighters = Array[PackedScene]([ExtResource("2_uulae"), ExtResource("2_uulae"), ExtResource("2_uulae")])
+position_array = Array[Vector3]([Vector3(0, 4, 5), Vector3(0, 4, -5), Vector3(0, 0, -7), Vector3(0, 0, 7)])
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_pe26q")
 data = {
-"cells": PackedInt32Array(-65536, 65529, 1048581, -65536, 65530, 1048581, -65536, 65531, 1048581, -65536, 65532, 1048581, -65536, 65533, 1048581, -65536, 65534, 1048581, -65536, 65535, 1048581, -65536, 0, 1048581, -65536, 1, 1048581, -65536, 2, 1048581, -65536, 3, 1048581, -65536, 4, 1048581, -65536, 5, 1048581, -131072, 65530, 1048577, -131072, 65531, 1048577, -131072, 65532, 1048577, -131072, 65533, 1048577, -131072, 65534, 1048577, -131072, 65535, 1048577, -131072, 0, 1048577, -131072, 1, 1048577, -131072, 2, 1048577, -131072, 3, 1048577, -131072, 4, 1048577, -196608, 65531, 1048577, -196608, 65532, 1048577, -196608, 65533, 1048577, -196608, 65534, 1048577, -196608, 65535, 1048577, -196608, 0, 1048577, -196608, 1, 1048577, -196608, 2, 1048577, -196608, 3, 1048577, -262144, 65532, 1048577, -262144, 65533, 1048577, -262144, 65534, 1048577, -262144, 65535, 1048577, -262144, 0, 1048577, -262144, 1, 1048577, -262144, 2, 1048577, -327680, 65533, 1048577, -327680, 65534, 1048577, -327680, 65535, 1048577, -327680, 0, 1048577, -327680, 1, 1048577, -393216, 65534, 1048577, -393216, 65535, 1048577, -393216, 0, 1048577, -458752, 65535, 1048577, -65536, 6, 1048581, -131072, 5, 1048578, -196608, 4, 1048578, -262144, 3, 1048578, -327680, 2, 1048578, -393216, 1, 1048578, -458752, 0, 1048578, -65535, 6, 655364, -65535, 65529, 655364, -65535, 65530, 655364, -65535, 65531, 655364, -65535, 65532, 655364, -65535, 65533, 655364, -65535, 65534, 655364, -65535, 65535, 655364, -65535, 0, 655364, -65535, 1, 655364, -65535, 2, 655364, -65535, 3, 655364, -65535, 4, 655364, -65535, 5, 655364, -1, 65529, 4, -1, 65530, 4, -1, 65531, 4, -1, 65532, 4, -1, 65533, 4, -1, 65534, 4, -1, 65535, 4, -1, 0, 4, -1, 1, 4, -1, 2, 4, -1, 3, 4, -1, 4, 4, -1, 5, 4, -1, 6, 4)
+"cells": PackedInt32Array(-65536, 65529, 655365, -65536, 65530, 1048581, -65536, 65531, 1048581, -65536, 65532, 1048581, -65536, 65533, 1048581, -65536, 65534, 1048581, -65536, 65535, 1048581, -65536, 0, 1048581, -65536, 1, 1048581, -65536, 2, 1048581, -65536, 3, 1048581, -65536, 4, 1048581, -65536, 5, 1048581, -131072, 65530, 1048577, -131072, 65531, 1048577, -131072, 65532, 1048577, -131072, 65533, 1048577, -131072, 65534, 1048577, -131072, 65535, 1048577, -131072, 0, 1048577, -131072, 1, 1048577, -131072, 2, 1048577, -131072, 3, 1048577, -131072, 4, 1048577, -196608, 65531, 1048577, -196608, 65532, 1048577, -196608, 65533, 1048577, -196608, 65534, 1048577, -196608, 65535, 1048577, -196608, 0, 1048577, -196608, 1, 1048577, -196608, 2, 1048577, -196608, 3, 1048577, -262144, 65532, 1048577, -262144, 65533, 1048577, -262144, 65534, 1048577, -262144, 65535, 1048577, -262144, 0, 1048577, -262144, 1, 1048577, -262144, 2, 1048577, -327680, 65533, 1048577, -327680, 65534, 1048577, -327680, 65535, 1048577, -327680, 0, 1048577, -327680, 1, 1048577, -393216, 65534, 1048577, -393216, 65535, 1048577, -393216, 0, 1048577, -458752, 65535, 1048577, -65536, 6, 5, -131072, 5, 1048578, -196608, 4, 1048578, -262144, 3, 1048578, -327680, 2, 1048578, -393216, 1, 1048578, -458752, 0, 1048578, -65535, 6, 1048580, -65535, 65529, 655364, -65535, 65530, 655364, -65535, 65531, 655364, -65535, 65532, 655364, -65535, 65533, 655364, -65535, 65534, 655364, -65535, 65535, 655364, -65535, 0, 655364, -65535, 1, 655364, -65535, 2, 655364, -65535, 3, 655364, -65535, 4, 655364, -65535, 5, 655364, -1, 65529, 1441796, -1, 65530, 4, -1, 65531, 4, -1, 65532, 4, -1, 65533, 4, -1, 65534, 4, -1, 65535, 4, -1, 0, 4, -1, 1, 4, -1, 2, 4, -1, 3, 4, -1, 4, 4, -1, 5, 4, -1, 6, 4)
 }
-metadata/_editor_floor_ = Vector3(0, -2, 0)
+metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 17, 3, 0)
@@ -62,18 +62,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, -14)
 environment = SubResource("Environment_56sah")
 
 [node name="Fighters" type="Node3D" parent="."]
-
-[node name="Fighter" parent="Fighters" instance=ExtResource("2_uulae")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 9)
-
-[node name="Fighter2" parent="Fighters" instance=ExtResource("2_uulae")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -8)
-player_index = 1
-
-[node name="SandBack" parent="." instance=ExtResource("4_ou2vn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -10)
-motion_mode = 1
-wall_min_slide_angle = 0.523599
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -99,4 +87,6 @@ layout_mode = 2
 [node name="Parcentage2" parent="UI/LifeContainer" instance=ExtResource("6_1yc43")]
 layout_mode = 2
 
-[connection signal="damaged" from="SandBack" to="UI/LifeContainer/Parcentage2" method="_on_sand_back_damaged"]
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

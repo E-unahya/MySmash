@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		fukki_used = true
 		velocity.y = FUKKI_VELOCITY
 	var direction := (transform.basis * Vector3(input_dir_x, 0, input_dir_y)).normalized()
-	if direction:
+	if direction.z <= 0.5 or direction.z >= -0.5:
 		velocity.z = -direction.z * SPEED
 	else:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
@@ -86,12 +86,13 @@ func _input(event):
 	if event.is_action_pressed(get_input("up")):
 		action_player.play("Jump")
 	if event.is_action_pressed(get_input("left")):
-		character.look_at(position + Vector3(0,0,-1))
-		character_direction = -1
+		character_look_at(-1)
 	if event.is_action_pressed(get_input("right")):
-		character.look_at(position + Vector3(0,0,1))
-		character_direction = 1
+		character_look_at(1)
 
+func character_look_at(z_index:int) -> void:
+	character.look_at(position + Vector3(0,0,z_index))
+	character_direction = z_index
 
 func get_input(input_name:String) -> String:
 	return input_name + "_" + str(player_index)
